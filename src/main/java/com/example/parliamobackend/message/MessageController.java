@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/message")
@@ -28,8 +29,8 @@ public class MessageController {
         return messageService.readAllMessages();
     }
 
-    @GetMapping("/readMessages")
-    public ResponseEntity<List<Message>> readMessage(Long senderId, Long receiverId){
-        return messageService.readMessage(senderId, receiverId);
+    @GetMapping("/readMessages/{id}")
+    public Optional<Message> readConversation(@PathVariable("id")Message message){
+        return messageService.readConversation(message);
     }
 }

@@ -1,12 +1,10 @@
 package com.example.parliamobackend.message;
 
 
-import com.example.parliamobackend.user.User;
 import jakarta.persistence.*;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "Messages")
@@ -14,12 +12,14 @@ public class Message {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
+    @Column(name = "senderId")
     private Long senderId;
+    @Column(name = "receiverId")
     private Long receiverId;
+    @Column(name = "content")
     private String content;
 
     private LocalDateTime posted = LocalDateTime.now();

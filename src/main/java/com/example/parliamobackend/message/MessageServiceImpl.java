@@ -1,12 +1,12 @@
 package com.example.parliamobackend.message;
 
-import com.example.parliamobackend.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -44,8 +44,10 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public ResponseEntity<List<Message>> readMessage(Long senderId, Long receiverId) {
+    public Optional<Message> readConversation(Message message) {
+            Optional<Message> messageList = messageRepository.findById(message.getId());
 
-        return null;
+            return messageList;
+
     }
 }
