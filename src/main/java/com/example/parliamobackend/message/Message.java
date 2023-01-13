@@ -1,13 +1,22 @@
 package com.example.parliamobackend.message;
 
 
+import com.example.parliamobackend.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
 public class Message {
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id", nullable = false)
+    private Long id;
 
 
     private String content;
@@ -16,15 +25,9 @@ public class Message {
 
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
-    private Long id;
 
-    public Message(String content, LocalDateTime posted) {
-        this.content = content;
-        this.posted = posted;
-    }
+
+
 
     public Message (){}
 
@@ -52,3 +55,14 @@ public class Message {
         this.posted = posted;
     }
 }
+
+
+
+/*
+    @ManyToMany(mappedBy = "conversations")
+    private Set<User> messageSet = new HashSet<>();
+    public Message(String content, LocalDateTime posted) {
+        this.content = content;
+        this.posted = posted;
+    }
+*/
