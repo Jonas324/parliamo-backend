@@ -14,7 +14,7 @@ import java.util.List;
     public class UserController {
 
 
-                private final UserServiceImpl userService;
+        private final UserServiceImpl userService;
 
         @Autowired
         public UserController(UserServiceImpl userService){
@@ -23,15 +23,11 @@ import java.util.List;
 
         @GetMapping
         public ResponseEntity<List<User>> getAllUser(){
-
-
             return userService.getAllUsers();
         }
 
         @PostMapping
         public ResponseEntity<User> addNewUser(@RequestBody User user){
-
-
             return userService.addNewUser(user);
         }
 

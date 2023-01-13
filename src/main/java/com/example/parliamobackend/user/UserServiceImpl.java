@@ -12,11 +12,10 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
 
-
-
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Override
     public ResponseEntity addNewUser(User user) {
         Optional<User> userOptional = userRepository.findByName(user.getName());
@@ -29,6 +28,7 @@ public class UserServiceImpl implements UserService{
 
         return new ResponseEntity("User added" + newUser, HttpStatus.OK);
     }
+
     @Override
     public ResponseEntity<List<User>> getAllUsers() {
         try {

@@ -12,5 +12,4 @@ public interface UserService {
     ResponseEntity addNewUser(User user);
     ResponseEntity<List<User>> getAllUsers();
 
-
 }
