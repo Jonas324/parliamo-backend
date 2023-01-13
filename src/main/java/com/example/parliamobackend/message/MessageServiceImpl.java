@@ -1,8 +1,12 @@
 package com.example.parliamobackend.message;
 
+import com.example.parliamobackend.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -27,7 +31,21 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public ResponseEntity<Message> readMessage(Long id) {
+    public ResponseEntity<List<Message>> readAllMessages(){
+
+        try {
+            List<Message> messageList = new ArrayList<>(messageRepository.findAll());
+
+            return new ResponseEntity<>(messageList, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<List<Message>> readMessage(Long senderId, Long receiverId) {
+
         return null;
     }
 }
