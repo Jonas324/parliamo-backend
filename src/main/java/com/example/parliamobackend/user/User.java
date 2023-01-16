@@ -1,19 +1,23 @@
 package com.example.parliamobackend.user;
 
 
+import com.example.parliamobackend.message.Message;
 import jakarta.persistence.*;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Configuration
 
 @Entity
 @Table(name="Users")
-public class User {
+public class User<Conversation> {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "user_Id", nullable = false)
+    private Long userId;
 
     private String name;
 
@@ -27,7 +31,7 @@ public class User {
     }
 
     public Long getId() {
-        return id;
+        return userId;
     }
 
     public String getName() {
@@ -37,11 +41,28 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
-}
-/*@ManyToMany
+
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name="conversations",
-                joinColumns = @JoinColumn(name = "user_id"),
-                inverseJoinColumns = @JoinColumn(name = "message_id")
+            joinColumns = @JoinColumn(name = "user_Id"),
+            inverseJoinColumns = @JoinColumn(name = "message_id")
     )
-    private Set<Conversation> conversations = new HashSet<>();*/
+    private Set<Message> conversations = new HashSet<>();
+
+    public User(Set<Message> conversations) {
+        this.conversations = conversations;
+    }
+
+    public Set<Message> getConversations() {
+        return conversations;
+    }
+
+    public void setConversations(Set<Message> conversations) {
+        this.conversations = conversations;
+    }
+
+    //    public Set<Message> getConversations(Message message) {
+//    }
+}
+
 

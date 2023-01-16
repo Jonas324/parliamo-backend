@@ -1,5 +1,6 @@
 package com.example.parliamobackend.user;
 
+import com.example.parliamobackend.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,11 @@ import java.util.List;
         @PostMapping
         public ResponseEntity<User> addNewUser(@RequestBody User user){
             return userService.addNewUser(user);
+        }
+
+        @PostMapping("/sendmessage/{id}")
+        public User sendMessage(@PathVariable("id") Long userId, Long receiverId, Message message){
+            return userService.sendMessage(userId, receiverId, message);
         }
 
 
