@@ -82,33 +82,7 @@ public class Message {
                 '}';
     }
 
-    @ManyToMany(mappedBy = "conversations")
-    private Set<User> messageSet = new HashSet<>();
+
 }
 
-
-
-/*
-    @ManyToMany(mappedBy = "conversations")
-    private Set<User> messageSet = new HashSet<>();
-    public Message(String content, LocalDateTime posted) {
-        this.content = content;
-        this.posted = posted;
-    }
-*/
-
-/*
-* [
-*   {
-*       "senderId": 1,
-*       "recieverId": 2,
-*       "message": "How are you?"
-*   }
-*   {
-*       "senderId": 2,
-*       "recieverId": 1,
-*       "message": "Fine, you?"
-*   }
-* ]
-*/
 

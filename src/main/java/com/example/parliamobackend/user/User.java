@@ -1,11 +1,16 @@
 package com.example.parliamobackend.user;
 
 
+import com.example.parliamobackend.Conversations.Conversation;
 import com.example.parliamobackend.message.Message;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 import org.springframework.context.annotation.Configuration;
 
+import java.lang.annotation.Target;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -19,11 +24,19 @@ public class User<Conversation> {
     @Column(name = "user_Id", nullable = false)
     private Long userId;
 
+    @Column
     private String name;
 
 
-    public User(String name) {
+    @Column
+    //@OneToMany(mappedBy = "Users")
+    @ManyToMany
+    private List<Conversation> conversations = new ArrayList<>();
+
+
+    public User(String name, List<Conversation> conversations ) {
         this.name = name;
+        this.conversations = conversations;
     }
 
 
@@ -42,27 +55,13 @@ public class User<Conversation> {
         this.name = name;
     }
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name="conversations",
-            joinColumns = @JoinColumn(name = "user_Id"),
-            inverseJoinColumns = @JoinColumn(name = "message_id")
-    )
-    private Set<Message> conversations = new HashSet<>();
-
-    public User(Set<Message> conversations) {
-        this.conversations = conversations;
-    }
-
-    public Set<Message> getConversations() {
+    public List<Conversation> getConversations() {
         return conversations;
     }
 
-    public void setConversations(Set<Message> conversations) {
+    public void setConversations(List<Conversation> conversations) {
         this.conversations = conversations;
     }
-
-    //    public Set<Message> getConversations(Message message) {
-//    }
 }
 
 

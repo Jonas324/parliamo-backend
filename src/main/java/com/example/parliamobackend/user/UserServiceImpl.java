@@ -52,12 +52,13 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-    @Override
+    /*@Override
     public User sendMessage(Long userId, Long receiverId, Message message) {
         Set<Message> conversation;
         User user = userRepository.findById(userId).get();
+        User receiver = userRepository.findById(receiverId).get();
 
-        messageService.addNewMessage(userId, receiverId, message);
+         messageService.addNewMessage(userId, receiverId, message);
 
 //        Message _message = new Message();
 //        _message.setSenderId(userId);
@@ -70,5 +71,5 @@ public class UserServiceImpl implements UserService{
         conversation = user.getConversations();
         user.setConversations(conversation);
         return userRepository.save(user);
-    }
+    }*/
 }

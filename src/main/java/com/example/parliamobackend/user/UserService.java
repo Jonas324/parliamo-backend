@@ -11,6 +11,6 @@ public interface UserService {
 
     ResponseEntity addNewUser(User user);
     ResponseEntity<List<User>> getAllUsers();
-    User sendMessage(Long userId, Long receiverId, Message message);
+   /* User sendMessage(Long userId, Long receiverId, Message message);*/
 
 }

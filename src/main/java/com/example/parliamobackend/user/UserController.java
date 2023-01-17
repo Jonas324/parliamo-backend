@@ -32,10 +32,10 @@ import java.util.List;
             return userService.addNewUser(user);
         }
 
-        @PostMapping("/sendmessage/{id}")
-        public User sendMessage(@PathVariable("id") Long userId, Long receiverId, Message message){
+       /* @PostMapping("/sendmessage/{id}/{receiverid}")
+        public User sendMessage(@PathVariable("id") Long userId, @PathVariable("receiverid") Long receiverId, Message message){
             return userService.sendMessage(userId, receiverId, message);
-        }
+        }*/
 
 
 
