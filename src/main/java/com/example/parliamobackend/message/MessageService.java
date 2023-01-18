@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public interface MessageService {
@@ -17,7 +16,7 @@ public interface MessageService {
 //    ResponseEntity<List<Message>> findByReceiverIdAndSenderId(Long sendId, Long receiverId);
 //    ResponseEntity<List<Message>>readConversation(Long senderId, Long receiverId);
 
-    List<Message> findBySenderIdAndReceiverId(Long senderId, Long receiverId);
+    List<List<Message>> findBySenderIdAndReceiverId(Long senderId, Long receiverId);
 
     Optional<Message> readConversation(Message message);
 

@@ -36,10 +36,10 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> findBySenderIdAndReceiverId(Long senderId, Long receiverId){
-        List<Message> messageBetweenUsers = new ArrayList<>();
-        messageBetweenUsers.add(messageRepository.findBySenderIdAndReceiverId(senderId, receiverId));
-        messageBetweenUsers.add(messageRepository.findByReceiverIdIdAndSenderId(receiverId, senderId));
+    public List<List<Message>> findBySenderIdAndReceiverId(Long senderId, Long receiverId){
+        List<List<Message>> messageBetweenUsers = new ArrayList<>();
+        messageBetweenUsers.add(messageRepository.findAllBySenderIdAndReceiverId(senderId, receiverId));
+        messageBetweenUsers.add(messageRepository.findAllByReceiverIdIdAndSenderId(receiverId, senderId));
 
         return messageBetweenUsers;
     }

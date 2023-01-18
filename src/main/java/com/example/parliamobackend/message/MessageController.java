@@ -2,14 +2,11 @@ package com.example.parliamobackend.message;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/message")
@@ -35,7 +32,7 @@ public class MessageController {
     }
 
     @GetMapping("/{senderId}/{receiverId}")
-    public List<Message> findBySenderIdAndReceiverId(@PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId){
+    public List<List<Message>> findBySenderIdAndReceiverId(@PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId){
 
         return messageService.findBySenderIdAndReceiverId(senderId, receiverId);
     }

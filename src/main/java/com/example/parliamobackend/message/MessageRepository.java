@@ -10,9 +10,9 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
     @Query("select m from Message m where m.senderId = ?1 and m.receiverId = ?2")
-    Message findByReceiverIdIdAndSenderId(Long receiverId, Long senderId);
+    List<Message> findAllByReceiverIdIdAndSenderId(Long receiverId, Long senderId);
 
     @Query("select m from Message m where m.senderId = ?1 and m.receiverId = ?2")
-    Message findBySenderIdAndReceiverId(Long senderId, Long receiverId);
+    List<Message> findAllBySenderIdAndReceiverId(Long senderId, Long receiverId);
 
 }
