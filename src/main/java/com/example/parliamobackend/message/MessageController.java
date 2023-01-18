@@ -24,35 +24,19 @@ public class MessageController {
     }
 
 
-//    @PostMapping
-//    public ResponseEntity<Message> sendMessage(@RequestBody Message message){
-//        return messageService.addNewMessage(message);
-//    }
-
-//    @GetMapping
-//    ResponseEntity<List<Message>> readAllMessages(){
-//        return messageService.readAllMessages();
-//    }
-
     @GetMapping("/readMessages/{id}")
     public Optional<Message> readConversation(@PathVariable("id")Message message){
         return messageService.readConversation(message);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<Message>> getConversation(Long receiverId, Long senderId){
-//        return messageService.readConversation(receiverId, senderId);
-//    }
+    @PostMapping
+    public ResponseEntity<Message> sendMessage(@RequestBody Message message){
+        return messageService.addNewMessage(message);
+    }
 
-//    @GetMapping
-//    public ResponseEntity<List<Message>> readConversation(
-//            @RequestParam Long receiverId, Long senderId){
-//        return messageService.readConversation(receiverId, senderId);
-//    }
+    @GetMapping("/{senderId}/{receiverId}")
+    public List<Message> findBySenderIdAndReceiverId(@PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId){
 
-//    @GetMapping
-//    public ResponseEntity<List<Message>> readConversation(@RequestParam Long receiverId,
-//                                                          @RequestParam Long senderId){
-//        return messageService.findByReceiverIdAndSenderId(receiverId, senderId);
-//    }
+        return messageService.findBySenderIdAndReceiverId(senderId, receiverId);
+    }
 }

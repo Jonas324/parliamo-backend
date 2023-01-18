@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,13 +18,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public ResponseEntity<Message> addNewMessage(Long senderId,
-                                                 Long receiverId,
-                                                 Message message) {
+    public ResponseEntity<Message> addNewMessage(Message message) {
         Message newMessage = new Message();
 
-        newMessage.setSenderId(senderId);
-        newMessage.setReceiverId(receiverId);
+        newMessage.setSenderId(message.getSenderId());
+        newMessage.setReceiverId(message.getReceiverId());
         newMessage.setContent(message.getContent());
         newMessage.setPosted(message.getPosted());
         messageRepository.save(newMessage);
@@ -36,55 +35,14 @@ public class MessageServiceImpl implements MessageService {
         return null;
     }
 
+    @Override
+    public List<Message> findBySenderIdAndReceiverId(Long senderId, Long receiverId){
+        List<Message> messageBetweenUsers = new ArrayList<>();
+        messageBetweenUsers.add(messageRepository.findBySenderIdAndReceiverId(senderId, receiverId));
+        messageBetweenUsers.add(messageRepository.findByReceiverIdIdAndSenderId(receiverId, senderId));
 
-
-//    @Override
-//    public ResponseEntity<List<Message>> findByReceiverIdAndSenderId(Long sendId, Long receiverId) {
-//        return null;
-//    }
-
-//    @Override
-//    public ResponseEntity<List<Message>> readConversation(Long senderId, Long receiverId) {
-//        return null;
-//    }
-
-//    @Override
-//    public ResponseEntity<List<Message>> readAllMessages(Long receiverId, Long senderId) {
-//
-//        List<Message> conversation = new ArrayList<>();
-//        conversation.add(messageRepository.findByReceiverIdAndSenderId(receiverId, senderId));
-//
-//        return new ResponseEntity<>(conversation, HttpStatus.OK);
-//    }
-
-//    @Override
-//    public ResponseEntity<List<Message>> findByReceiverIdAndSenderId(Long receiverId, Long senderId) {
-//        List<Message> readConversation = new ArrayList<>();
-//        readConversation.add((Message) messageRepository.findByReceiverIdAndSenderId(receiverId, senderId));
-//        return new ResponseEntity<>(readConversation, HttpStatus.OK);
-//    }
-
-//    @Override
-//    public ResponseEntity<List<Message>> readConversation(Long recieverId, Long senderId){
-//        List<Message> conversation = new ArrayList<>();
-//        conversation.add(messageRepository.findByReceiverIdAndSenderId(recieverId, senderId));
-//
-//        return new ResponseEntity<>(conversation, HttpStatus.OK);
-//    }
-
-
-//    @Override
-//    public ResponseEntity<List<Message>> readAllMessages(){
-//
-//        try {
-//            List<Message> messageList = new ArrayList<>(messageRepository.findAll());
-//
-//            return new ResponseEntity<>(messageList, HttpStatus.OK);
-//
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+        return messageBetweenUsers;
+    }
 
     @Override
     public Optional<Message> readConversation(Message message) {
@@ -92,4 +50,15 @@ public class MessageServiceImpl implements MessageService {
             return messageList;
     }
 
+    @Override
+    public ResponseEntity<List<Message>> readAllMessages(){
+        try {
+            List<Message> messageList = new ArrayList<>(messageRepository.findAll());
+
+            return new ResponseEntity<>(messageList, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
