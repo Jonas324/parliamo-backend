@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/message")
 public class MessageController {
@@ -26,11 +27,14 @@ public class MessageController {
         return messageService.readConversation(message);
     }
 
+
     @PostMapping
     public ResponseEntity<Message> sendMessage(@RequestBody Message message){
         return messageService.addNewMessage(message);
     }
 
+
+    @CrossOrigin
     @GetMapping("/{senderId}/{receiverId}")
     public List<List<Message>> findBySenderIdAndReceiverId(@PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId){
 
