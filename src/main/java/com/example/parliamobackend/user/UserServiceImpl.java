@@ -29,12 +29,18 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ResponseEntity addNewUser(User user) {
-        Optional<User> userOptional = userRepository.findByName(user.getName());
+        Optional<User> userOptional = userRepository.findByUserame(user.getUsername());
         if (userOptional.isPresent()){
             throw new IllegalStateException("username taken");
         }
         User newUser = new User();
-        newUser.setName(user.getName());
+        newUser.setUsername(user.getUsername());
+        newUser.setPassword(user.getPassword());
+        newUser.setAuthorities(user.getAuthorities());
+        newUser.setAccountNonExpired(user.isAccountNonExpired());
+        newUser.setAccountNonLocked(user.isAccountNonLocked());
+        newUser.setCredentialsNonExpired(user.isCredentialsNonExpired());
+        newUser.setEnabled(user.isEnabled());
         userRepository.save(newUser);
 
         return new ResponseEntity("User added" + newUser, HttpStatus.OK);
@@ -60,13 +66,13 @@ public class UserServiceImpl implements UserService{
 
          messageService.addNewMessage(userId, receiverId, message);
 
-//        Message _message = new Message();
-//        _message.setSenderId(userId);
-//        _message.setReceiverId(receiverId);
-//        _message.setContent(message.getContent());
-//        _message.setPosted(message.getPosted());
-//        messageRepository.save(_message);
-//        conversation.add(_message);
+        Message _message = new Message();
+        _message.setSenderId(userId);
+        _message.setReceiverId(receiverId);
+        _message.setContent(message.getContent());
+        _message.setPosted(message.getPosted());
+        messageRepository.save(_message);
+        conversation.add(_message);
 
         conversation = user.getConversations();
         user.setConversations(conversation);

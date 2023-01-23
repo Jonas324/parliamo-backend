@@ -22,12 +22,14 @@ public class MessageController {
     }
 
 
+    @CrossOrigin
     @GetMapping("/readMessages/{id}")
     public Optional<Message> readConversation(@PathVariable("id")Message message){
         return messageService.readConversation(message);
     }
 
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<Message> sendMessage(@RequestBody Message message){
         return messageService.addNewMessage(message);

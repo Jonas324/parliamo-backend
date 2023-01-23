@@ -3,6 +3,7 @@ package com.example.parliamobackend.message;
 
 import com.example.parliamobackend.user.User;
 import jakarta.persistence.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
@@ -18,8 +19,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+
     @Column(name = "senderId")
     private Long senderId;
+
     @Column(name = "receiverId")
     private Long receiverId;
     @Column(name = "content")
