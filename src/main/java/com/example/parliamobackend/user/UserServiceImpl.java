@@ -1,6 +1,5 @@
 package com.example.parliamobackend.user;
 
-import com.example.parliamobackend.configurations.AppPasswordConfig;
 import com.example.parliamobackend.message.MessageRepository;
 import com.example.parliamobackend.message.MessageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +18,14 @@ public class UserServiceImpl implements UserService{
     private final MessageRepository messageRepository;
     private final MessageServiceImpl messageService;
 
-    private final AppPasswordConfig appPasswordConfig;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            MessageRepository messageRepository,
-                           MessageServiceImpl messageService,
-                           AppPasswordConfig appPasswordConfig) {
+                           MessageServiceImpl messageService) {
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
         this.messageService = messageService;
-        this.appPasswordConfig = appPasswordConfig;
     }
 
     @Override

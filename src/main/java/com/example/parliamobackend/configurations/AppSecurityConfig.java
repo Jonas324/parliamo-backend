@@ -20,12 +20,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 // Enables @PreAuthorize
 public class AppSecurityConfig {
-    private final AppPasswordConfig appPasswordConfig;
-
-    @Autowired
-    public AppSecurityConfig(AppPasswordConfig appPasswordConfig) {
-        this.appPasswordConfig = appPasswordConfig;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -52,7 +46,7 @@ public class AppSecurityConfig {
 
         UserDetails benny = User.withDefaultPasswordEncoder()
                 .username("benny")
-                .password(appPasswordConfig.bCryptPasswordEncoder().encode("123"))
+                .password("123")
                 .roles("ADMIN")
                 // <-- old way (only role)
                 //.authorities(UserRoles.ADMIN.getGrantedAuthorities())   // <-- new way (both permissions and role)

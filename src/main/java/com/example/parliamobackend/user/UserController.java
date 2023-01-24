@@ -1,7 +1,5 @@
 package com.example.parliamobackend.user;
 
-import com.example.parliamobackend.configurations.AppPasswordConfig;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +14,11 @@ public class UserController {
 
 
     private final UserServiceImpl userService;
-    private final AppPasswordConfig bcrypt;
 
 
     @Autowired
-    public UserController(UserServiceImpl userService, AppPasswordConfig bcrypt){
+    public UserController(UserServiceImpl userService){
         this.userService = userService;
-        this.bcrypt = bcrypt;
     }
 
    /* @GetMapping("/encode")
