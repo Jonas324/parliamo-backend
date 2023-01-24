@@ -25,13 +25,13 @@ public class UserController {
         this.bcrypt = bcrypt;
     }
 
-    @GetMapping("/encode")
+   /* @GetMapping("/encode")
     public String testEncoding() {
 
         bcrypt.bCryptPasswordEncoder().matches("", "");
 
         return bcrypt.bCryptPasswordEncoder().encode("password");
-    }
+    }*/
     @GetMapping
     public ResponseEntity<List<User>> getAllUser(){
             return userService.getAllUsers();

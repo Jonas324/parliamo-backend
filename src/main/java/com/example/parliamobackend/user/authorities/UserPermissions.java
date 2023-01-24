@@ -1,3 +1,4 @@
+/*
 package com.example.parliamobackend.user.authorities;
 
 public enum UserPermissions {
@@ -22,3 +23,4 @@ public enum UserPermissions {
 
 
 
+*/

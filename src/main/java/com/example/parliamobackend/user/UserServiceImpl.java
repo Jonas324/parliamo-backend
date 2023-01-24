@@ -1,8 +1,9 @@
 package com.example.parliamobackend.user;
 
-import com.example.parliamobackend.message.Message;
+import com.example.parliamobackend.configurations.AppPasswordConfig;
 import com.example.parliamobackend.message.MessageRepository;
 import com.example.parliamobackend.message.MessageServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -19,12 +19,17 @@ public class UserServiceImpl implements UserService{
     private final MessageRepository messageRepository;
     private final MessageServiceImpl messageService;
 
+    private final AppPasswordConfig appPasswordConfig;
+
+    @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            MessageRepository messageRepository,
-                           MessageServiceImpl messageService) {
+                           MessageServiceImpl messageService,
+                           AppPasswordConfig appPasswordConfig) {
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
         this.messageService = messageService;
+        this.appPasswordConfig = appPasswordConfig;
     }
 
     @Override
@@ -36,7 +41,6 @@ public class UserServiceImpl implements UserService{
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(user.getPassword());
-        newUser.setAuthorities(user.getAuthorities());
         newUser.setAccountNonExpired(user.isAccountNonExpired());
         newUser.setAccountNonLocked(user.isAccountNonLocked());
         newUser.setCredentialsNonExpired(user.isCredentialsNonExpired());

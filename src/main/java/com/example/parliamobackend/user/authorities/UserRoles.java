@@ -1,3 +1,4 @@
+/*
 package com.example.parliamobackend.user.authorities;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -46,3 +47,4 @@ public enum UserRoles {
 
 
 
+*/

@@ -1,6 +1,7 @@
 package com.example.parliamobackend.configurations;
 
-import com.example.parliamobackend.user.authorities.UserRoles;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -11,18 +12,29 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity                   // Enables @PreAuthorize
+@EnableMethodSecurity
+@EnableWebMvc
+// Enables @PreAuthorize
 public class AppSecurityConfig {
+    private final AppPasswordConfig appPasswordConfig;
+
+    @Autowired
+    public AppSecurityConfig(AppPasswordConfig appPasswordConfig) {
+        this.appPasswordConfig = appPasswordConfig;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/login", "/error", "/rest/encode", "/user", "/message").permitAll()
-                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/", "/login", "/error", "/rest/encode", "/user", "/message")
+                .permitAll()
+                .requestMatchers("/admin")
+                .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -40,18 +52,13 @@ public class AppSecurityConfig {
 
         UserDetails benny = User.withDefaultPasswordEncoder()
                 .username("benny")
-                .password("123")
-                // .roles("ADMIN")                                      // <-- old way (only role)
-                .authorities(UserRoles.ADMIN.getGrantedAuthorities())   // <-- new way (both permissions and role)
+                .password(appPasswordConfig.bCryptPasswordEncoder().encode("123"))
+                .roles("ADMIN")
+                // <-- old way (only role)
+                //.authorities(UserRoles.ADMIN.getGrantedAuthorities())   // <-- new way (both permissions and role)
                 .build();
 
-        UserDetails anton = User.withDefaultPasswordEncoder()
-                .username("anton")
-                .password("123")
-                .authorities(UserRoles.USER.getGrantedAuthorities())
-                .build();
-
-        return new InMemoryUserDetailsManager(benny, anton);
+        return new InMemoryUserDetailsManager(benny);
     }
 
 }

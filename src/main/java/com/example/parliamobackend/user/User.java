@@ -2,11 +2,16 @@ package com.example.parliamobackend.user;
 
 import jakarta.persistence.*;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Collection;
+import java.util.List;
 
+@EnableWebSecurity
+@EnableWebMvc
 @Configuration
 @Entity
 @Table(name="Users")
@@ -22,7 +27,7 @@ public class User implements UserDetails {
     @Column
     private String password;
     @Column
-    private Collection<? extends GrantedAuthority> authorities;
+    private GrantedAuthority authorities;
     @Column
     private boolean isAccountNonExpired;
     @Column
@@ -35,9 +40,11 @@ public class User implements UserDetails {
     public User() {
     }
 
+
+
     public User(String username,
                 String password,
-                Collection<? extends GrantedAuthority> authorities,
+                GrantedAuthority authorities,
                 boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
@@ -58,10 +65,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return null;
     }
 
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+    public void setAuthorities(GrantedAuthority authorities) {
         this.authorities = authorities;
     }
 
@@ -77,22 +84,22 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return isAccountNonExpired;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return isAccountNonLocked;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return true;
     }
 
     public void setUsername(String username) {
