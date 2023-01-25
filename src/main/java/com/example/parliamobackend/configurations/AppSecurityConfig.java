@@ -43,7 +43,7 @@ public class AppSecurityConfig {
                 .requestMatchers(
                         "/", "/login", "/error",
                         "/rest/encode", "/user", "/message",
-                        "/register"
+                        "/user/register"
                 )
                 .permitAll()
                 .requestMatchers("/admin")

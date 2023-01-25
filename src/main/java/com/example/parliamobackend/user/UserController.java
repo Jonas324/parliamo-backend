@@ -3,6 +3,7 @@ package com.example.parliamobackend.user;
 import com.example.parliamobackend.configurations.AppPasswordConfig;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,19 +46,17 @@ public class UserController {
             return userService.addNewUser(user);
     }
 
-    @GetMapping("/register")
+    /*@GetMapping("/register")
     public String displayRegisterUser(User user) {    // THIS ARGUMENT MUST EXIST
 
         return "register";
-    }
+    }*/
+
 
     @PostMapping("/register")
-    public String registerUser(@Valid User user, BindingResult result, Model model) {
-
-        if (result.hasErrors()) {
-
-            return "register";
-        }
+    public ResponseEntity<String> registerUser(@RequestBody User user, BindingResult result, Model model) {
+        System.out.println(user.getPassword() );
+        // TODO Check if @Valid should be used instead of RequestBody. Also where to specify pass requirements.
 
         user.setUsername(user.getUsername());
         user.setPassword(appPasswordConfig.bCryptPasswordEncoder().encode(user.getPassword()));
@@ -71,7 +70,7 @@ public class UserController {
         userRepository.save(user);
         // model.addAttribute("user", userModel);
 
-        return "home";
+        return new ResponseEntity<String>("User registred", HttpStatus.OK);
     }
 
        /* @PostMapping("/sendmessage/{id}/{receiverid}")
