@@ -1,7 +1,4 @@
-/*
 package com.example.parliamobackend.user.authorities;
-
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +24,15 @@ public enum UserRoles {
     }
 
     // Create list: [ROLE & PERMISSIONS]
-    public List<SimpleGrantedAuthority> getGrantedAuthorities() {
+    public List<String> getGrantedAuthorities() {
 
         // Loop
-        List<SimpleGrantedAuthority> permissionsList = new ArrayList<>(getPermissions().stream().map(
-                index -> new SimpleGrantedAuthority(index.getUserPermission())
+        List<String> permissionsList = new ArrayList<>(getPermissions().stream().map(
+                UserPermissions::getUserPermission
         ).toList());
 
         // Add Role      (example ROLE_ADMIN)
-        permissionsList.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+        permissionsList.add(("ROLE_" + this.name()));
 
         return permissionsList;
     }
@@ -47,4 +44,3 @@ public enum UserRoles {
 
 
 
-*/

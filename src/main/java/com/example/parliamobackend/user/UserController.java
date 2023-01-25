@@ -1,7 +1,11 @@
 package com.example.parliamobackend.user;
 
+import com.example.parliamobackend.configurations.AppPasswordConfig;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +18,14 @@ public class UserController {
 
 
     private final UserServiceImpl userService;
-
+    private final UserRepository userRepository;
+    private final AppPasswordConfig appPasswordConfig;
 
     @Autowired
-    public UserController(UserServiceImpl userService){
+    public UserController(UserServiceImpl userService, UserRepository userRepository, AppPasswordConfig appPasswordConfig){
         this.userService = userService;
+        this.userRepository = userRepository;
+        this.appPasswordConfig = appPasswordConfig;
     }
 
    /* @GetMapping("/encode")
@@ -36,6 +43,35 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> addNewUser(@RequestBody User user){
             return userService.addNewUser(user);
+    }
+
+    @GetMapping("/register")
+    public String displayRegisterUser(User user) {    // THIS ARGUMENT MUST EXIST
+
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@Valid User user, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+
+            return "register";
+        }
+
+        user.setUsername(user.getUsername());
+        user.setPassword(appPasswordConfig.bCryptPasswordEncoder().encode(user.getPassword()));
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        user.setEnabled(true);
+
+        // IF no errors
+        System.out.println(user);
+        userRepository.save(user);
+        // model.addAttribute("user", userModel);
+
+        return "home";
     }
 
        /* @PostMapping("/sendmessage/{id}/{receiverid}")

@@ -5,6 +5,8 @@ import com.example.parliamobackend.message.MessageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ResponseEntity addNewUser(User user) {
-        Optional<User> userOptional = userRepository.findByUserame(user.getUsername());
+        Optional<User> userOptional = userRepository.findUserByUsername(user.getUsername());
         if (userOptional.isPresent()){
             throw new IllegalStateException("username taken");
         }
@@ -56,6 +58,14 @@ public class UserServiceImpl implements UserService{
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        // TODO - Exception Handling
+
+        return userRepository.findByUsername(username);    // Query
     }
 
     /*@Override
