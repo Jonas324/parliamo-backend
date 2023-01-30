@@ -19,7 +19,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "userId", nullable = false)
+    @Column(name = "userId")
     private Long userId;
 
     @Column
