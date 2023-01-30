@@ -68,6 +68,15 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByUsername(username);    // Query
     }
 
+    @Override
+    public void deleteUserById(Long id){
+        boolean exists = userRepository.existsById(id);
+        if (!exists){
+            throw new IllegalStateException("user with id" + id + "does not exists");
+        }
+        userRepository.deleteById(id);
+    }
+
     /*@Override
     public User sendMessage(Long userId, Long receiverId, Message message) {
         Set<Message> conversation;

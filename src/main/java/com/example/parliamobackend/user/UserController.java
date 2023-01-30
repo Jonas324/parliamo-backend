@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -36,11 +35,14 @@ public class UserController {
 
         return bcrypt.bCryptPasswordEncoder().encode("password");
     }*/
+
+    @CrossOrigin
     @GetMapping
     public ResponseEntity<List<User>> getAllUser(){
             return userService.getAllUsers();
     }
 
+    @CrossOrigin
     @PostMapping
     public ResponseEntity<User> addNewUser(@RequestBody User user){
             return userService.addNewUser(user);
@@ -52,7 +54,7 @@ public class UserController {
         return "register";
     }*/
 
-
+    @CrossOrigin
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user, BindingResult result, Model model) {
         System.out.println(user.getPassword() );
@@ -73,17 +75,13 @@ public class UserController {
         return new ResponseEntity<String>("User registred", HttpStatus.OK);
     }
 
-       /* @PostMapping("/sendmessage/{id}/{receiverid}")
-        public User sendMessage(@PathVariable("id") Long userId, @PathVariable("receiverid") Long receiverId, Message message){
-            return userService.sendMessage(userId, receiverId, message);
-        }*/
+    @CrossOrigin
+    @DeleteMapping("/{id}")
+    public String deleteUserById(@PathVariable("id") Long id){
+        userService.deleteUserById(id);
+        return "user deleted";
+    }
 
-
-
-
-        // Postman -- { "email" : "hej@hejsan.se", "password" : "123", "username" : "benny", "credit" : "1000L",
-        // "enabled" : "true", "accountNonExpired" : "true", "accountNonLocked" : "true", "credentialsNonExpired" :
-        // "true","role":"ADMIN"}
 
 
 }
