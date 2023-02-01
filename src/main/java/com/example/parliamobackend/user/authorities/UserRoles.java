@@ -10,6 +10,7 @@ public enum UserRoles {
     USER(List.of(USER_READ)),
     ADMIN(List.of(ADMIN_READ, ADMIN_WRITE));
 
+
     // Variable
     private final List<UserPermissions> permissionsList;
 

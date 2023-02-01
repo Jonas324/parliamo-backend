@@ -1,5 +1,7 @@
 package com.example.parliamobackend.auth;
 
+import com.example.parliamobackend.user.authorities.UserRoles;
+import com.example.parliamobackend.configurations.JWTService;
 import com.example.parliamobackend.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,13 +17,13 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
 
     @Autowired
     public AuthenticationService(UserRepository userRepository,
                                  PasswordEncoder passwordEncoder,
-                                 JwtService jwtService,
+                                 JWTService jwtService,
                                  AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -33,9 +35,9 @@ public class AuthenticationService {
         var user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .roles(UserRoles.USER.getGrantedAuthorities())
                 .build();
-        repository.save(user);
+        userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
