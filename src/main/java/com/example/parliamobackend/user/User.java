@@ -27,6 +27,8 @@ public class User implements UserDetails {
     @Column
     private String password;
     @Column
+    private List<String> authorities;
+    @Column
     private boolean isAccountNonExpired;
     @Column
     private boolean isAccountNonLocked;
@@ -42,12 +44,13 @@ public class User implements UserDetails {
 
     public User(String username,
                 String password,
-                boolean isAccountNonExpired,
+                List<String> authorities, boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
                 boolean isEnabled) {
         this.username = username;
         this.password = password;
+        this.authorities = authorities;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
@@ -62,6 +65,10 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    public void setAuthorities(List<String> authorities) {
+        this.authorities = authorities;
     }
 
     @Override
