@@ -18,4 +18,9 @@ public class AuthenticationResponse {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public static AuthenticationResponse token(String token) {
+        return new AuthenticationResponse(token);
+    }
+
 }

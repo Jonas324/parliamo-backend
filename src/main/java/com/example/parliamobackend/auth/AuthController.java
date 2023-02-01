@@ -24,11 +24,11 @@ public class AuthController {
 //
 //    private final PasswordEncoder passwordEncoder;
 
-    private final AuthenticationService service;
+    private final AuthenticationService authService;
 
     @Autowired
-    public AuthController(AuthenticationService service) {
-        this.service = service;
+    public AuthController(AuthenticationService authService) {
+        this.authService = authService;
     }
 
     //    @Autowired
@@ -40,7 +40,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request){
-       return ResponseEntity.ok(service.authenticate(request));
+       return ResponseEntity.ok(authService.authenticate(request));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
     }
 
 }

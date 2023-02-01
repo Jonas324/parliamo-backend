@@ -1,16 +1,17 @@
 package com.example.parliamobackend.auth;
 
+import com.example.parliamobackend.user.User;
 import com.example.parliamobackend.user.authorities.UserRoles;
 import com.example.parliamobackend.configurations.JWTService;
 import com.example.parliamobackend.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.Role;
+import java.util.Optional;
 
 @Service
 public class AuthenticationService {
@@ -32,30 +33,31 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .roles(UserRoles.USER.getGrantedAuthorities())
-                .build();
-        userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        Optional<User> userOptional = userRepository.findUserByUsername(request.getUsername());
+        if (userOptional.isPresent()){
+            throw new IllegalStateException("username taken");
+        }
+
+        User newUser = new User();
+        newUser.setUsername(request.getUsername());
+        newUser.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        userRepository.save(newUser);
+        var jwtToken = jwtService.generateToken(newUser);
+        return AuthenticationResponse.token(jwtToken);
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest _request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        _request.getUsername(),
-                        _request.getPassword()
+                        request.getUsername(),
+                        request.getPassword()
                 )
         );
-        var user = userRepository.findByUsername(_request.getUsername())
+        var user = userRepository.findUserByUsername(request.getUsername())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        return AuthenticationResponse
+                .token(jwtToken);
     }
 }

@@ -1,9 +1,11 @@
 package com.example.parliamobackend.user;
 
+import com.example.parliamobackend.user.authorities.UserRoles;
 import jakarta.persistence.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -40,14 +42,12 @@ public class User implements UserDetails {
     public User() {
     }
 
-
-
     public User(String username,
                 String password,
                 List<String> authorities, boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
-                boolean isEnabled) {
+                boolean isEnabled, UserRoles userRoles) {
         this.username = username;
         this.password = password;
         this.authorities = authorities;
@@ -55,16 +55,20 @@ public class User implements UserDetails {
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnabled = isEnabled;
+        this.userRoles = userRoles;
     }
 
     public Long getId() {
         return userId;
     }
 
+    @Enumerated(EnumType.STRING)
+    private UserRoles userRoles;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(userRoles.name()));
     }
 
     public void setAuthorities(List<String> authorities) {
