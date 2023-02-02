@@ -52,7 +52,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(newUser);
         Gson gson = new Gson();
         String jsonUser = gson.toJson(newUser);
-        return new AuthenticationResponse(jwtToken, jsonUser);
+        return new AuthenticationResponse(jwtToken, newUser.toString());
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

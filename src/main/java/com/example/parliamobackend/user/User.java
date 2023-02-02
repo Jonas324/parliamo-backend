@@ -60,19 +60,6 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", isAccountNonExpired=" + isAccountNonExpired +
-                ", isAccountNonLocked=" + isAccountNonLocked +
-                ", isCredentialsNonExpired=" + isCredentialsNonExpired +
-                ", isEnabled=" + isEnabled +
-                ", role=" + role +
-                '}';
-    }
-
     public Role getRole() {
         return role;
     }
@@ -148,6 +135,20 @@ public class User implements UserDetails {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"userId\":" + userId +
+                ", \"username\":\"" + username + "\"" +
+                ", \"password\":\"" + password + "\"" +
+                ", \"isAccountNonExpired\":" + isAccountNonExpired +
+                ", \"isAccountNonLocked\":" + isAccountNonLocked +
+                ", \"isCredentialsNonExpired\":" + isCredentialsNonExpired +
+                ", \"isEnabled\":" + isEnabled +
+                ", \"role\":\"" + role + "\"" +
+                "}";
     }
 }
 
