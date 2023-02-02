@@ -1,6 +1,6 @@
 package com.example.parliamobackend.user;
 
-import com.example.parliamobackend.user.authorities.UserRoles;
+import com.example.parliamobackend.user.Role;
 import jakarta.persistence.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -10,10 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @EnableWebSecurity
-@EnableWebMvc
 @Configuration
 @Entity
 @Table(name="Users")
@@ -28,8 +28,7 @@ public class User implements UserDetails {
     private String username;
     @Column
     private String password;
-    @Column
-    private List<String> authorities;
+
     @Column
     private boolean isAccountNonExpired;
     @Column
@@ -39,6 +38,10 @@ public class User implements UserDetails {
     @Column
     private boolean isEnabled;
 
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public User() {
     }
 
@@ -47,32 +50,50 @@ public class User implements UserDetails {
                 List<String> authorities, boolean isAccountNonExpired,
                 boolean isAccountNonLocked,
                 boolean isCredentialsNonExpired,
-                boolean isEnabled, UserRoles userRoles) {
+                boolean isEnabled, Role role) {
         this.username = username;
         this.password = password;
-        this.authorities = authorities;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnabled = isEnabled;
-        this.userRoles = userRoles;
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", isAccountNonExpired=" + isAccountNonExpired +
+                ", isAccountNonLocked=" + isAccountNonLocked +
+                ", isCredentialsNonExpired=" + isCredentialsNonExpired +
+                ", isEnabled=" + isEnabled +
+                ", role=" + role +
+                '}';
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Long getId() {
         return userId;
     }
 
-    @Enumerated(EnumType.STRING)
-    private UserRoles userRoles;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(userRoles.name()));
-    }
+        Collection<SimpleGrantedAuthority> convertedSet;
 
-    public void setAuthorities(List<String> authorities) {
-        this.authorities = authorities;
+        convertedSet = Collections.singleton(new SimpleGrantedAuthority(role.toString()));
+
+        return convertedSet;
     }
 
     @Override

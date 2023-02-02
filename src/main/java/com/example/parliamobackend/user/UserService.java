@@ -9,7 +9,10 @@ import java.util.List;
 @Service
 public interface UserService extends UserDetailsService {
 
-    ResponseEntity addNewUser(User user);
+    User getUserByName(String username);
+
+
+
     ResponseEntity<List<User>> getAllUsers();
 
     void deleteUserById(Long id);

@@ -1,7 +1,7 @@
 package com.example.parliamobackend.auth;
 
 import com.example.parliamobackend.user.User;
-import com.example.parliamobackend.user.authorities.UserRoles;
+import com.example.parliamobackend.user.Role;
 import com.example.parliamobackend.configurations.JWTService;
 import com.example.parliamobackend.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.Role;
+
 import java.util.Optional;
 
 @Service
@@ -41,6 +41,11 @@ public class AuthenticationService {
         User newUser = new User();
         newUser.setUsername(request.getUsername());
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        newUser.setRole(Role.ROLE_ADMIN);
+        newUser.setCredentialsNonExpired(true);
+        newUser.setAccountNonLocked(true);
+        newUser.setEnabled(true);
+        newUser.setAccountNonExpired(true);
 
         userRepository.save(newUser);
         var jwtToken = jwtService.generateToken(newUser);

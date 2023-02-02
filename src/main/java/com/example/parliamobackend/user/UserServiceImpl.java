@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -30,23 +29,7 @@ public class UserServiceImpl implements UserService{
         this.messageService = messageService;
     }
 
-    @Override
-    public ResponseEntity addNewUser(User user) {
-        Optional<User> userOptional = userRepository.findUserByUsername(user.getUsername());
-        if (userOptional.isPresent()){
-            throw new IllegalStateException("username taken");
-        }
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setPassword(user.getPassword());
-        newUser.setAccountNonExpired(user.isAccountNonExpired());
-        newUser.setAccountNonLocked(user.isAccountNonLocked());
-        newUser.setCredentialsNonExpired(user.isCredentialsNonExpired());
-        newUser.setEnabled(user.isEnabled());
-        userRepository.save(newUser);
 
-        return new ResponseEntity("User added" + newUser, HttpStatus.OK);
-    }
 
     @Override
     public ResponseEntity<List<User>> getAllUsers() {
@@ -58,6 +41,13 @@ public class UserServiceImpl implements UserService{
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @Override
+    public User getUserByName(String username){
+        User user = userRepository.findByUsername(username);
+                /*.orElseThrow(() -> new IllegalArgumentException("Customer not exist with id: " + username));*/
+        return user;
     }
 
     @Override

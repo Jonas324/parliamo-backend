@@ -1,51 +1,67 @@
-//package com.example.parliamobackend.user;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.ui.Model;
-//import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
-//@RestController
-//@RequestMapping("/user")
-//public class UserController {
-//
-//
-//    private final UserServiceImpl userService;
-//    private final UserRepository userRepository;
-//    private final AppPasswordConfig appPasswordConfig;
-//
-//    @Autowired
-//    public UserController(UserServiceImpl userService, UserRepository userRepository, AppPasswordConfig appPasswordConfig){
-//        this.userService = userService;
-//        this.userRepository = userRepository;
-//        this.appPasswordConfig = appPasswordConfig;
-//    }
-//
-//   /* @GetMapping("/encode")
-//    public String testEncoding() {
-//
-//        bcrypt.bCryptPasswordEncoder().matches("", "");
-//
-//        return bcrypt.bCryptPasswordEncoder().encode("password");
-//    }*/
-//
-//    @CrossOrigin
-//    @GetMapping
-//    public ResponseEntity<List<User>> getAllUser(){
-//            return userService.getAllUsers();
-//    }
-//
-//    @CrossOrigin
-//    @PostMapping
-//    public ResponseEntity<User> addNewUser(@RequestBody User user){
-//            return userService.addNewUser(user);
-//    }
-//
+package com.example.parliamobackend.user;
+
+import com.example.parliamobackend.message.Message;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@RestController
+@RequestMapping("/user")
+public class UserController {
+
+
+    private final UserServiceImpl userService;
+    private final UserRepository userRepository;
+
+
+    @Autowired
+    public UserController(UserServiceImpl userService, UserRepository userRepository){
+        this.userService = userService;
+        this.userRepository = userRepository;
+
+    }
+
+   /* @GetMapping("/encode")
+    public String testEncoding() {
+
+        bcrypt.bCryptPasswordEncoder().matches("", "");
+
+        return bcrypt.bCryptPasswordEncoder().encode("password");
+    }*/
+    @GetMapping("/getUser/{username}")
+    public User getUserByName(@PathVariable String username){
+        return userService.getUserByName(username);
+    }
+
+
+
+
+    @CrossOrigin
+    @GetMapping("/getAllUsers")
+    public ResponseEntity<List<User>> getAllUser(){
+            return userService.getAllUsers();
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/{id}")
+    public String deleteUserById(@PathVariable("id") Long id){
+        userService.deleteUserById(id);
+        return "user deleted";
+    }
+    /*@CrossOrigin
+    @PostMapping
+    public ResponseEntity<User> addNewUser(@RequestBody User user){
+            return userService.addNewUser(user);
+    }*/
+
 //    /*@GetMapping("/register")
 //    public String displayRegisterUser(User user) {    // THIS ARGUMENT MUST EXIST
 //
@@ -73,13 +89,8 @@
 ////        return new ResponseEntity<String>("User registred", HttpStatus.OK);
 ////    }
 //
-//    @CrossOrigin
-//    @DeleteMapping("/{id}")
-//    public String deleteUserById(@PathVariable("id") Long id){
-//        userService.deleteUserById(id);
-//        return "user deleted";
-//    }
-//
-//
-//
-//}
+
+
+
+
+}
