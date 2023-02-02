@@ -1,15 +1,20 @@
 package com.example.parliamobackend.auth;
 
+import com.example.parliamobackend.user.User;
+
 public class AuthenticationResponse {
 
     private String token;
+    private String user;
 
     public AuthenticationResponse() {
     }
 
-    public AuthenticationResponse(String token) {
+    public AuthenticationResponse(String token, String user) {
         this.token = token;
+        this.user = user;
     }
+
 
     public String getToken() {
         return token;
@@ -19,8 +24,17 @@ public class AuthenticationResponse {
         this.token = token;
     }
 
-    public static AuthenticationResponse token(String token) {
-        return new AuthenticationResponse(token);
+
+    public String getUser() {
+        return user;
     }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+//    public static AuthenticationResponse of (String token, User user) {
+//        return new AuthenticationResponse(token, user);
+//    }
 
 }

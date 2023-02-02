@@ -4,6 +4,7 @@ import com.example.parliamobackend.user.User;
 import com.example.parliamobackend.user.Role;
 import com.example.parliamobackend.configurations.JWTService;
 import com.example.parliamobackend.user.UserRepository;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,7 +50,9 @@ public class AuthenticationService {
 
         userRepository.save(newUser);
         var jwtToken = jwtService.generateToken(newUser);
-        return AuthenticationResponse.token(jwtToken);
+        Gson gson = new Gson();
+        String jsonUser = gson.toJson(newUser);
+        return new AuthenticationResponse(jwtToken, jsonUser);
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -62,7 +65,8 @@ public class AuthenticationService {
         var user = userRepository.findUserByUsername(request.getUsername())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse
-                .token(jwtToken);
+        Gson gson = new Gson();
+        String jsonUser = gson.toJson(user);
+        return new AuthenticationResponse(jwtToken, jsonUser);
     }
 }

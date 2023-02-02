@@ -36,6 +36,7 @@ public class UserController {
 
         return bcrypt.bCryptPasswordEncoder().encode("password");
     }*/
+    @CrossOrigin
     @GetMapping("/getUser/{username}")
     public User getUserByName(@PathVariable String username){
         return userService.getUserByName(username);

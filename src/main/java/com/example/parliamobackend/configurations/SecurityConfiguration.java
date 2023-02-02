@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                 .httpBasic().and().csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**")
+                .requestMatchers("/api/auth/**", "/user/getUser/{username}")
                 .permitAll()
                 .requestMatchers("/adminpage").hasRole("ADMIN")
                 .anyRequest()
