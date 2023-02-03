@@ -142,7 +142,9 @@ public class User implements UserDetails {
         return "{" +
                 "\"userId\":" + userId +
                 ", \"username\":\"" + username + "\"" +
+/*
                 ", \"password\":\"" + password + "\"" +
+*/
                 ", \"isAccountNonExpired\":" + isAccountNonExpired +
                 ", \"isAccountNonLocked\":" + isAccountNonLocked +
                 ", \"isCredentialsNonExpired\":" + isCredentialsNonExpired +

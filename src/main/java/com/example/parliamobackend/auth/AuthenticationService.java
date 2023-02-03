@@ -50,8 +50,8 @@ public class AuthenticationService {
 
         userRepository.save(newUser);
         var jwtToken = jwtService.generateToken(newUser);
-        Gson gson = new Gson();
-        String jsonUser = gson.toJson(newUser);
+        /*Gson gson = new Gson();
+        String jsonUser = gson.toJson(newUser);*/
         return new AuthenticationResponse(jwtToken, newUser.toString());
     }
 

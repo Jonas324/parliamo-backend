@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +32,7 @@ public class SecurityConfiguration {
                 .httpBasic().and().csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**", "/user/getUser/{username}")
+                .requestMatchers("/api/auth/**", "/user/getUser/{username}", "/message/1152/1202")
                 .permitAll()
                 .requestMatchers("/adminpage").hasRole("ADMIN")
                 .anyRequest()
@@ -42,6 +43,17 @@ public class SecurityConfiguration {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.cors().configurationSource(request -> {
+            CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
+            corsConfiguration.addAllowedMethod("DELETE");
+            corsConfiguration.addAllowedMethod("POST");
+            corsConfiguration.addAllowedMethod("GET");
+            corsConfiguration.addAllowedMethod("OPTIONS");
+            corsConfiguration.addAllowedMethod("PUT");
+            return corsConfiguration;
+        });
+
 
         return http.build();
     }
