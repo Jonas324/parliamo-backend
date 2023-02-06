@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                 .httpBasic().and().csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/register", "/api/auth/login", "/user/getUser/{username}", "/message/{senderId}/{receiverId}", "/user/getAllUsers")
+                .requestMatchers("/api/auth/register", "/api/auth/login", "/user/getUser/{username}", "/message/{senderId}/{receiverId}", "/user/getAllUsers", "/message")
                 .permitAll()
                 .requestMatchers("/adminpage").hasRole("ADMIN")
                 .anyRequest()
