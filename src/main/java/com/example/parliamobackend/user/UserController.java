@@ -1,6 +1,7 @@
 package com.example.parliamobackend.user;
 
 import com.example.parliamobackend.message.Message;
+import com.sun.tools.jconsole.JConsoleContext;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,9 +53,10 @@ public class UserController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteUserById(@PathVariable("id") Long id){
         userService.deleteUserById(id);
+        System.out.println("user deleted");
         return "user deleted";
     }
     /*@CrossOrigin
