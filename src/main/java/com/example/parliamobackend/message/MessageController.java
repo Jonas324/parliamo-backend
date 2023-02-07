@@ -14,11 +14,14 @@ import java.util.Optional;
 public class MessageController {
 
     private final MessageServiceImpl messageService;
+    private final MessageRepository messageRepository;
 
 
     @Autowired
-    public MessageController(MessageServiceImpl messageService) {
+    public MessageController(MessageServiceImpl messageService,
+                             MessageRepository messageRepository) {
         this.messageService = messageService;
+        this.messageRepository = messageRepository;
     }
 
 
@@ -41,5 +44,11 @@ public class MessageController {
     public List<List<Message>> findBySenderIdAndReceiverId(@PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId){
 
         return messageService.findBySenderIdAndReceiverId(senderId, receiverId);
+    }
+
+    @CrossOrigin
+    @GetMapping("/getall")
+    public ResponseEntity <List<Message>> getAllMessages(){
+        return messageService.readAllMessages();
     }
 }
