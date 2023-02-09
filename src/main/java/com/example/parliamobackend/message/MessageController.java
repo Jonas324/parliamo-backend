@@ -42,7 +42,6 @@ public class MessageController {
     @CrossOrigin
     @GetMapping("/{senderId}/{receiverId}")
     public List<List<Message>> findBySenderIdAndReceiverId(@PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId){
-
         return messageService.findBySenderIdAndReceiverId(senderId, receiverId);
     }
 

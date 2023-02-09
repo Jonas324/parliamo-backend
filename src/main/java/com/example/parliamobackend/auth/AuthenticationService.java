@@ -50,8 +50,6 @@ public class AuthenticationService {
 
         userRepository.save(newUser);
         var jwtToken = jwtService.generateToken(newUser);
-        /*Gson gson = new Gson();
-        String jsonUser = gson.toJson(newUser);*/
         return new AuthenticationResponse(jwtToken, newUser.toString());
     }
 
@@ -65,8 +63,6 @@ public class AuthenticationService {
         var user = userRepository.findUserByUsername(request.getUsername())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        Gson gson = new Gson();
-        String jsonUser = gson.toJson(user);
-        return new AuthenticationResponse(jwtToken, jsonUser);
+        return new AuthenticationResponse(jwtToken, user.toString());
     }
 }

@@ -43,9 +43,6 @@ public class UserController {
         return userService.getUserByName(username);
     }
 
-
-
-
     @CrossOrigin
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<User>> getAllUser(){
