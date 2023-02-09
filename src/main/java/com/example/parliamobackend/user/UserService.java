@@ -16,6 +16,5 @@ public interface UserService extends UserDetailsService {
     ResponseEntity<List<User>> getAllUsers();
 
     void deleteUserById(Long id);
-    /* User sendMessage(Long userId, Long receiverId, Message message);*/
 
 }

@@ -1,14 +1,9 @@
 package com.example.parliamobackend.message;
 
 
-import com.example.parliamobackend.user.User;
 import jakarta.persistence.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "Messages")

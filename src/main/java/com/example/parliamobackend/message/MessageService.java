@@ -12,9 +12,6 @@ public interface MessageService {
     ResponseEntity<Message>addNewMessage(Message message);
 
     ResponseEntity<Message>readMessage(Long id);
-//    ResponseEntity<Set<Message>>readAllMessages(Long id);
-//    ResponseEntity<List<Message>> findByReceiverIdAndSenderId(Long sendId, Long receiverId);
-//    ResponseEntity<List<Message>>readConversation(Long senderId, Long receiverId);
 
     List<List<Message>> findBySenderIdAndReceiverId(Long senderId, Long receiverId);
 

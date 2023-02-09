@@ -4,7 +4,6 @@ import com.example.parliamobackend.user.User;
 import com.example.parliamobackend.user.Role;
 import com.example.parliamobackend.configurations.JWTService;
 import com.example.parliamobackend.user.UserRepository;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

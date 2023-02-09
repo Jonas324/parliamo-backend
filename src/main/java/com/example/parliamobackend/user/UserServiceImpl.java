@@ -16,19 +16,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final MessageRepository messageRepository;
-    private final MessageServiceImpl messageService;
 
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,
-                           MessageRepository messageRepository,
-                           MessageServiceImpl messageService) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.messageRepository = messageRepository;
-        this.messageService = messageService;
     }
-
 
 
     @Override
@@ -45,17 +38,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserByName(String username){
-        User user = userRepository.findByUsername(username);
-                /*.orElseThrow(() -> new IllegalArgumentException("Customer not exist with id: " + username));*/
-        return user;
+        return userRepository.findByUsername(username);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        // TODO - Exception Handling
-
-        return userRepository.findByUsername(username);    // Query
+        return userRepository.findByUsername(username);
     }
 
     @Override
@@ -66,25 +55,4 @@ public class UserServiceImpl implements UserService{
         }
         userRepository.deleteById(id);
     }
-
-    /*@Override
-    public User sendMessage(Long userId, Long receiverId, Message message) {
-        Set<Message> conversation;
-        User user = userRepository.findById(userId).get();
-        User receiver = userRepository.findById(receiverId).get();
-
-         messageService.addNewMessage(userId, receiverId, message);
-
-        Message _message = new Message();
-        _message.setSenderId(userId);
-        _message.setReceiverId(receiverId);
-        _message.setContent(message.getContent());
-        _message.setPosted(message.getPosted());
-        messageRepository.save(_message);
-        conversation.add(_message);
-
-        conversation = user.getConversations();
-        user.setConversations(conversation);
-        return userRepository.save(user);
-    }*/
 }

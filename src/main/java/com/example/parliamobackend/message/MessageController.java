@@ -14,14 +14,13 @@ import java.util.Optional;
 public class MessageController {
 
     private final MessageServiceImpl messageService;
-    private final MessageRepository messageRepository;
+
 
 
     @Autowired
-    public MessageController(MessageServiceImpl messageService,
-                             MessageRepository messageRepository) {
+    public MessageController(MessageServiceImpl messageService) {
         this.messageService = messageService;
-        this.messageRepository = messageRepository;
+
     }
 
 

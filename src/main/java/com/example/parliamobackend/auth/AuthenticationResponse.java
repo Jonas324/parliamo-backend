@@ -33,8 +33,5 @@ public class AuthenticationResponse {
         this.user = user;
     }
 
-//    public static AuthenticationResponse of (String token, User user) {
-//        return new AuthenticationResponse(token, user);
-//    }
 
 }
