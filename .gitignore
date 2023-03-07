@@ -22,6 +22,7 @@ bin/
 *.iws
 *.iml
 *.ipr
+*.properties
 *.env
 out/
 !**/src/main/**/out/
@@ -36,3 +37,4 @@ out/
 
 ### VS Code ###
 .vscode/
+src/main/resources/application.properties

@@ -6,34 +6,56 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name = "Messages")
 public class Message {
 
 
-    private String content;
-
-    private LocalDateTime posted;
-
-
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    public Message(String content, LocalDateTime posted) {
+
+    @Column(name = "senderId")
+    private Long senderId;
+
+    @Column(name = "receiverId")
+    private Long receiverId;
+    @Column(name = "content")
+    private String content;
+
+    private LocalDateTime posted = LocalDateTime.now();
+
+    public Message(Long senderId,
+                   Long receiverId,
+                   String content,
+                   LocalDateTime posted) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
         this.content = content;
         this.posted = posted;
     }
 
     public Message (){}
 
-    public Long getId() {
-        return id;
+    public Long getSenderId() {
+        return senderId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSenderId(Long senderId) {
+        this.senderId = senderId;
+    }
+
+    public Long getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getContent() {
@@ -51,4 +73,15 @@ public class Message {
     public void setPosted(LocalDateTime posted) {
         this.posted = posted;
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "posted=" + posted +
+                '}';
+    }
+
+
 }
+
+

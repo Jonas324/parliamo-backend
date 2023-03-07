@@ -1,94 +1,86 @@
 package com.example.parliamobackend.user;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.parliamobackend.user.Role;
+import jakarta.persistence.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Collection;
-@Configuration
+import java.util.Collections;
+import java.util.List;
+
 @EnableWebSecurity
+@Configuration
 @Entity
 @Table(name="Users")
 public class User implements UserDetails {
 
     @Id
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "userId")
+    private Long userId;
 
+    @Column
     private String username;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-//    Variables
+    @Column
     private String password;
 
-    private boolean accountNonExpired;
+    @Column
+    private boolean isAccountNonExpired;
+    @Column
+    private boolean isAccountNonLocked;
+    @Column
+    private boolean isCredentialsNonExpired;
+    @Column
+    private boolean isEnabled;
 
-    private boolean accountNonLocked;
 
-    private boolean credentialsNonExpired;
-
-    private boolean enabled;
-
-//    Constructors
-    public User(String username,
-                String password,
-                boolean accountNonExpired,
-                boolean accountNonLocked,
-                boolean credentialsNonExpired,
-                boolean enabled) {
-        this.username = username;
-        this.password = password;
-        this.accountNonExpired = true;
-        this.accountNonLocked = true;
-        this.credentialsNonExpired = true;
-        this.enabled = enabled;
-    }
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public User() {
     }
 
-//    Setters
-    public void setUsername(String username) {
+    public User(String username,
+                String password,
+                List<String> authorities, boolean isAccountNonExpired,
+                boolean isAccountNonLocked,
+                boolean isCredentialsNonExpired,
+                boolean isEnabled, Role role) {
         this.username = username;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
+        this.isAccountNonExpired = isAccountNonExpired;
+        this.isAccountNonLocked = isAccountNonLocked;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        this.isEnabled = isEnabled;
+        this.role = role;
     }
 
-    public void setAccountNonExpired(boolean accountNonExpired) {
-        this.accountNonExpired = accountNonExpired;
+    public Role getRole() {
+        return role;
     }
 
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        this.accountNonLocked = accountNonLocked;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
-        this.credentialsNonExpired = credentialsNonExpired;
+    public Long getId() {
+        return userId;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 
-//    Getters
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<SimpleGrantedAuthority> convertedSet;
+
+        convertedSet = Collections.singleton(new SimpleGrantedAuthority(role.toString()));
+
+        return convertedSet;
     }
 
     @Override
@@ -103,21 +95,63 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return accountNonExpired;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return accountNonLocked;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        isAccountNonExpired = accountNonExpired;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        isAccountNonLocked = accountNonLocked;
+    }
+
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        isCredentialsNonExpired = credentialsNonExpired;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"userId\":" + userId +
+                ", \"username\":\"" + username + "\"" +
+/*
+                ", \"password\":\"" + password + "\"" +
+*/
+                ", \"isAccountNonExpired\":" + isAccountNonExpired +
+                ", \"isAccountNonLocked\":" + isAccountNonLocked +
+                ", \"isCredentialsNonExpired\":" + isCredentialsNonExpired +
+                ", \"isEnabled\":" + isEnabled +
+                ", \"role\":\"" + role + "\"" +
+                "}";
     }
 }
+
+
